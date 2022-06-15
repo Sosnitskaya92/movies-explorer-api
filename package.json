@@ -1,0 +1,31 @@
+{
+  "name": "movies",
+  "version": "0.1.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sosnitskaya92/movies-explorer-api.git"
+  },
+  "author": "Angelina Sosnitskaya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sosnitskaya92/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Sosnitskaya92/movies-explorer-api#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.16"
+  }
+}
