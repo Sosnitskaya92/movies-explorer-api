@@ -20,7 +20,10 @@
   },
   "homepage": "https://github.com/Sosnitskaya92/movies-explorer-api#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.8",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^8.17.0",
