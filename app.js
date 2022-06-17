@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const { Joi, celebrate, errors } = require('celebrate');
 const userRouter = require('./routes/users');
 const movieRouter = require('./routes/movies');
-const { createUser, login } = require('./controllers/users');
+const { createUser, login, logout } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -41,6 +41,8 @@ app.use(auth);
 
 app.use('/users', userRouter);
 app.use('/movies', movieRouter);
+
+app.use('/signout', logout);
 
 app.use('*', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден.');
