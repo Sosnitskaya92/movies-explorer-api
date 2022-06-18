@@ -1,13 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const { Joi, celebrate, errors } = require('celebrate');
-const userRouter = require('./routes/users');
-const movieRouter = require('./routes/movies');
-const { createUser, login, logout } = require('./controllers/users');
-const auth = require('./middlewares/auth');
-const NotFoundError = require('./errors/NotFoundError');
+const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const routers = require('./routes/index');
 
 require('dotenv').config();
 
@@ -21,32 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(/(https?:\/\/)(w{3}\.)?(((\d{1,3}\.){3}\d{1,3})|((\w-?)+\.[a-z0-9_-]{2,3}))(:\d{2,5})?((\/.+)+)?\/?#?/m),
-  }),
-}), createUser);
-
-app.use(auth);
-
-app.use('/users', userRouter);
-app.use('/movies', movieRouter);
-
-app.use('/signout', logout);
-
-app.use('*', () => {
-  throw new NotFoundError('Запрашиваемый ресурс не найден.');
-});
+app.use(routers);
 
 app.use(errorLogger);
 app.use(errors());
