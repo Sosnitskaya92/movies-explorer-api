@@ -11,6 +11,7 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.createMovie = (req, res, next) => {
+  const owner = req.user._id;
   const {
     country,
     director,
@@ -20,7 +21,7 @@ module.exports.createMovie = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    movieID,
+    movieId,
     nameRU,
     nameEN,
   } = req.body;
@@ -34,7 +35,8 @@ module.exports.createMovie = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    movieID,
+    owner,
+    movieId,
     nameRU,
     nameEN,
   })
@@ -49,13 +51,13 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  const { movieID } = req.params;
-  Movie.findById(movieID)
+  const { movieId } = req.params;
+  Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Нет такого фильма');
       } else if (JSON.stringify(req.user._id) === JSON.stringify(movie.owner)) {
-        return Movie.findByIdAndRemove(movieID)
+        return Movie.findByIdAndRemove(movieId)
           .then((result) => { res.send(result); });
       } else {
         throw new ForbiddenError('Нет прав для удаления данного фильма');
