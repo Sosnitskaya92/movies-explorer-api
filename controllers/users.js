@@ -32,7 +32,11 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => User.create({
       name, email, password: hash,
     }))
-    .then((user) => res.status(200).send(user))
+    .then(() => res.status(200).send({
+      data: {
+        name, email,
+      },
+    }))
     .catch((err) => {
       if (err.code === DUBLICATE_MONGOOSE_ERROR_CODE) {
         next(new ConflictError('Такой e-mail уже зарегистрирован'));
@@ -52,6 +56,8 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные'));
+      } else if (err.code === DUBLICATE_MONGOOSE_ERROR_CODE) {
+        next(new ConflictError('Такой e-mail уже зарегистрирован'));
       } else {
         next(err);
       }
