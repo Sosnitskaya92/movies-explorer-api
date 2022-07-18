@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-// const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
@@ -52,7 +51,7 @@ module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
-    .then((user) => res.send({ data: user }))
+    .then((user) => { res.send(user); })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные'));
@@ -73,8 +72,8 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        sameSite: 'none',
-      }).send({ token });
+        sameSite: true,
+      }).send({ message: 'Вы успешно вошли.' });
     })
     .catch(() => {
       throw new UnauthorizedError('Неправильные почта или пароль');
@@ -91,3 +90,12 @@ module.exports.logout = (req, res, next) => {
     .send({ message: 'Пользователь вышел из профиля' })
     .catch(next);
 };
+
+// module.exports.logout = (req, res, next) => {
+//   try {
+//     res.clearCookie('jwt');
+//   } catch (err) {
+//     return next(new Error('С токеном что-то не так.'));
+//   }
+//   return res.status(200).send({ message: 'Вы успешно вышли' });
+// };

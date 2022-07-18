@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
@@ -11,6 +12,18 @@ require('dotenv').config();
 const { PORT, MONGO_URL } = require('./utils/dev-config');
 
 const app = express();
+
+app.use(cors({
+  origin: [
+    'https://diploma.sosnitskaya.nomoreparties.sbs',
+    'http://diploma.sosnitskaya.nomoreparties.sbs',
+    'http://localhost:3001',
+    'https://localhost:3001',
+    'http://localhost:3000',
+    'https://localhost:3000',
+  ],
+  credentials: true,
+}));
 
 app.use(cookieParser());
 
