@@ -90,12 +90,3 @@ module.exports.logout = (req, res, next) => {
     .send({ message: 'Пользователь вышел из профиля' })
     .catch(next);
 };
-
-// module.exports.logout = (req, res, next) => {
-//   try {
-//     res.clearCookie('jwt');
-//   } catch (err) {
-//     return next(new Error('С токеном что-то не так.'));
-//   }
-//   return res.status(200).send({ message: 'Вы успешно вышли' });
-// };
