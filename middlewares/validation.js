@@ -22,22 +22,6 @@ const validateAuthorization = celebrate({
   }),
 });
 
-const validateMovie = celebrate({
-  body: Joi.object().keys({
-    country: Joi.string().required(),
-    director: Joi.string().required(),
-    duration: Joi.number().required(),
-    year: Joi.string().required(),
-    description: Joi.string().required(),
-    image: Joi.string().required().pattern(/(https?:\/\/)(w{3}\.)?(((\d{1,3}\.){3}\d{1,3})|((\w-?)+\.[a-z0-9_-]{2,3}))(:\d{2,5})?((\/.+)+)?\/?#?/m),
-    trailerLink: Joi.string().required().pattern(/(https?:\/\/)(w{3}\.)?(((\d{1,3}\.){3}\d{1,3})|((\w-?)+\.[a-z0-9_-]{2,3}))(:\d{2,5})?((\/.+)+)?\/?#?/m),
-    thumbnail: Joi.string().required().pattern(/(https?:\/\/)(w{3}\.)?(((\d{1,3}\.){3}\d{1,3})|((\w-?)+\.[a-z0-9_-]{2,3}))(:\d{2,5})?((\/.+)+)?\/?#?/m),
-    movieId: Joi.number().required(),
-    nameRU: Joi.string().required(),
-    nameEN: Joi.string().required(),
-  }),
-});
-
 const validateMovieId = celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().hex().length(24),
@@ -45,5 +29,5 @@ const validateMovieId = celebrate({
 });
 
 module.exports = {
-  validateUser, validateRegistration, validateAuthorization, validateMovie, validateMovieId,
+  validateUser, validateRegistration, validateAuthorization, validateMovieId,
 };
